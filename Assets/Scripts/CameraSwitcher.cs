@@ -4,10 +4,10 @@ using Unity.Cinemachine;
 
 public class CameraSwitcher : MonoBehaviour
 {
-    public Camera mainCamera;                        // Assign the Main Camera here
-    public Camera mainCamera2;                       // Assign the Second Main Camera here
-    public CinemachineCamera arrowCamera;           // Assign the Arrow Camera here
-    public Camera impactCamera;                     // Assign the Impact Camera here
+    public Camera mainCamera;                       
+    public Camera mainCamera2;                      
+    public CinemachineCamera arrowCamera;           
+    public Camera impactCamera;                     
 
     private bool isArrowFlying = false;
     private GameObject currentArrow;
@@ -92,16 +92,38 @@ public class CameraSwitcher : MonoBehaviour
     IEnumerator ShowImpactCamera(Vector3 impactPosition)
     {
         arrowCamera.gameObject.SetActive(false);
-        impactCamera.transform.position = impactPosition + new Vector3(0, 1.1f, -2);
-        impactCamera.transform.LookAt(impactPosition);
-        impactCamera.transform.rotation = Quaternion.Euler(25, 0, 0);
+
+        Vector3 startPos = arrowCamera.transform.position; // Starting position (current camera)
+        Quaternion startRot = arrowCamera.transform.rotation;
+
+        Vector3 targetPos = impactPosition + new Vector3(0, 1.1f, -2); // Impact view position
+        Quaternion targetRot = Quaternion.LookRotation(impactPosition - targetPos); // Look at impact
+
+        float duration = 0.8f; // Smooth transition duration
+        float elapsedTime = 0f;
 
         impactCamera.gameObject.SetActive(true);
-        yield return new WaitForSeconds(1.5f);
+
+        while (elapsedTime < duration)
+        {
+            // Smooth transition
+            impactCamera.transform.position = Vector3.Lerp(startPos, targetPos, elapsedTime / duration);
+            impactCamera.transform.rotation = Quaternion.Slerp(startRot, targetRot, elapsedTime / duration);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Final position & rotation (ensure precision)
+        impactCamera.transform.position = targetPos;
+        impactCamera.transform.rotation = targetRot;
+
+        yield return new WaitForSeconds(1.5f); // Stay on impact for 1.5 seconds
 
         impactCamera.gameObject.SetActive(false);
         ReturnToPlayerView();
     }
+
 
     public void ReturnToPlayerView(System.Action onComplete = null)
     {

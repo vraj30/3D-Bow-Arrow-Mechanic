@@ -4,29 +4,39 @@ using UnityEngine;
 
 public class mouseLook : MonoBehaviour
 {
-
-    public float mouseSens;
-
+    public float mouseSens = 100f;
     public Transform playerBody;
 
-    float xRotation = 0f;
-    // Start is called before the first frame update
+    private float xRotation = 0f; // Pitch (Up-Down)
+    private float yRotation = 0f; // Yaw (Left-Right)
+
+    // Rotation Limits
+    public float minXRotation = -30f;   // Look down limit
+    public float maxXRotation = 30f;    // Look up limit
+
+    public float minYRotation = -45f;   // Look left limit
+    public float maxYRotation = 45f;    // Look right limit
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    // Update is called once per frame
     void Update()
     {
         float mouseX = Input.GetAxis("Mouse X") * mouseSens * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSens * Time.deltaTime;
 
+       
+        yRotation += mouseX;
         xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -80f, 35f); // Prevent looking through body
 
-        playerBody.Rotate(Vector3.up * mouseX); // Rotate player before camera
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f); // Rotate camera last
+        // Apply clamping
+        xRotation = Mathf.Clamp(xRotation, minXRotation, maxXRotation);
+        yRotation = Mathf.Clamp(yRotation, minYRotation, maxYRotation);
+
+        // Apply rotations
+        playerBody.localRotation = Quaternion.Euler(0f, yRotation, 0f); // Yaw (left-right)
+        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f); // Pitch (up-down)
     }
-
 }

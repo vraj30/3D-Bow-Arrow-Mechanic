@@ -1207,7 +1207,7 @@ GameObject:
   - component: {fileID: 1606956053}
   - component: {fileID: 1606956052}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Power
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1230,7 +1230,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 31, y: -24}
-  m_SizeDelta: {x: 145.575, y: 104.062}
+  m_SizeDelta: {x: 473.725, y: 104.062}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1606956052
 MonoBehaviour:
@@ -1281,8 +1281,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 80.75
-  m_fontSizeBase: 80.75
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1480,15 +1480,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 527111a7f113af749a6176a589ef5dfc, type: 3}
       propertyPath: m_LocalScale.x
-      value: 66.205
+      value: 76.34761
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 527111a7f113af749a6176a589ef5dfc, type: 3}
       propertyPath: m_LocalScale.y
-      value: 66.205
+      value: 76.34761
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 527111a7f113af749a6176a589ef5dfc, type: 3}
       propertyPath: m_LocalScale.z
-      value: 9.989672
+      value: 11.52009
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 527111a7f113af749a6176a589ef5dfc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4254,8 +4254,9 @@ MonoBehaviour:
   bow: {fileID: 3946306368789527381}
   chargePower: 10
   maxPower: 70
-  chargeRate: 25
+  chargeRate: 20
   cameraSwitcher: {fileID: 1363005744}
+  powerText: {fileID: 1606956052}
   mainCamera: {fileID: 4706030971505707875}
   zoomedFOV: 25
   normalFOV: 55

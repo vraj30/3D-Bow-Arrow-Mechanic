@@ -6,10 +6,12 @@ public class Arrow : MonoBehaviour
     private bool hasHit = false;
     private bool cameraReturned = false;
     private CameraSwitcher cameraSwitcher;
+    private TrailRenderer trail;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        trail = GetComponentInChildren<TrailRenderer>();
         rb.isKinematic = true;
     }
 
@@ -67,6 +69,7 @@ public class Arrow : MonoBehaviour
 
             rb.isKinematic = true;
             rb.useGravity = false;
+            trail.enabled = false;
 
             ContactPoint contact = collision.contacts[0];
             transform.position = contact.point;

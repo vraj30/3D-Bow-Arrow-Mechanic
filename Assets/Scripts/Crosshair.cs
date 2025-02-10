@@ -2,9 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Crosshair : MonoBehaviour
 {
-    public Image crosshair;                // Assign the UI crosshair in Inspector
-    public Camera playerCamera;            // Assign the player's camera
-    public float maxDistance = 100f;       // Maximum range to detect hits
+    public Image crosshair;                
+    public Camera playerCamera;            
+    public float maxDistance = 100f;   
 
     void Update()
     {
@@ -15,6 +15,7 @@ public class Crosshair : MonoBehaviour
     {
         Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
         RaycastHit hit;
+        Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red);
 
         if (Physics.Raycast(ray, out hit, maxDistance))
         {

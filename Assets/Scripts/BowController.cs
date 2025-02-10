@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using TMPro;
+using System.Diagnostics;
 
 public class BowController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class BowController : MonoBehaviour
     private GameObject currentArrow;
     private bool isCharging = false;
     private bool isZooming = false;
+   
 
     [SerializeField] private float chargePower = 0f;
     [SerializeField] private float maxPower = 50f;
@@ -32,15 +34,13 @@ public class BowController : MonoBehaviour
         }
         else
         {
-            powerText.text = "";
+            powerText.text = "Power: ";
         }
     }
     void UpdatePowerText()
     {
         powerText.text = $"Power: {Mathf.RoundToInt(chargePower)}";  
     }
-
-
     void StickArrowToBow()
     {
         currentArrow.transform.position = arrowSpawnPoint.position;
@@ -86,10 +86,11 @@ public class BowController : MonoBehaviour
 
     void StartCharging()
     {
+        
         isCharging = true;
         chargePower = 0f;
 
-        Quaternion rotation = arrowSpawnPoint.rotation * Quaternion.Euler(90, 0, 0);
+        Quaternion rotation = arrowSpawnPoint.rotation * Quaternion.Euler(90, 0 , 0);
         currentArrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, rotation);
         currentArrow.transform.SetParent(bow);
     }
@@ -114,7 +115,19 @@ public class BowController : MonoBehaviour
 
             // Accurate shoot direction from the crosshair
             Ray ray = mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-            Vector3 shootDirection = ray.direction;
+            RaycastHit hit;
+            Vector3 shootDirection;
+
+            if (Physics.Raycast(ray, out hit, 100f))
+            {
+                shootDirection = (hit.point - arrowSpawnPoint.position).normalized;
+            }
+            else
+            {
+                shootDirection = ray.direction;
+            }
+
+
 
             arrowScript.LaunchArrow(chargePower, shootDirection);
             cameraSwitcher.OnArrowShot(currentArrow); // Camera switch AFTER shooting

@@ -591,14 +591,14 @@ RectTransform:
   m_GameObject: {fileID: 513318436}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.45942104, y: 0.45942104, z: 0.45942104}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1449455865}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 6.37, y: 0}
+  m_AnchoredPosition: {x: -1.32, y: 0}
   m_SizeDelta: {x: 25, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &513318438
@@ -1252,9 +1252,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '0
-
-'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2304,7 +2302,7 @@ Transform:
   m_GameObject: {fileID: 1318325692073345429}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.982, y: 0.008, z: -10.995}
+  m_LocalPosition: {x: -6.05, y: 0.008, z: -6.21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4252,7 +4250,7 @@ MonoBehaviour:
   arrowSpawnPoint: {fileID: 65431869}
   arrowPrefab: {fileID: 1022957178037021631, guid: e3805534b16f83547b4cad94992e4889, type: 3}
   bow: {fileID: 3946306368789527381}
-  chargePower: 10
+  chargePower: 20
   maxPower: 70
   chargeRate: 20
   cameraSwitcher: {fileID: 1363005744}

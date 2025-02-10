@@ -6,13 +6,14 @@ public class Arrow : MonoBehaviour
     private bool hasHit = false;
     private bool cameraReturned = false;
     private CameraSwitcher cameraSwitcher;
-    private TrailRenderer trail;
+    protected TrailRenderer trail;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         trail = GetComponentInChildren<TrailRenderer>();
         rb.isKinematic = true;
+        trail.enabled = false;
     }
 
     public void SetCameraSwitcher(CameraSwitcher switcher)
@@ -24,6 +25,7 @@ public class Arrow : MonoBehaviour
     {
         rb.isKinematic = false;
         rb.useGravity = true;
+        trail.enabled = true;
 
         Quaternion customRotation = Quaternion.LookRotation(shootDirection.normalized);
         customRotation *= Quaternion.Euler(90, 0, 0);

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using TMPro;
 
 public class BowController : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class BowController : MonoBehaviour
     [SerializeField] private float maxPower = 50f;
     [SerializeField] private float chargeRate = 20f;
     [SerializeField] private CameraSwitcher cameraSwitcher;
+    [SerializeField] private TextMeshProUGUI powerText; 
 
     public Camera mainCamera;
     public float zoomedFOV = 30f;
@@ -26,8 +28,18 @@ public class BowController : MonoBehaviour
         if (isCharging && currentArrow != null)
         {
             StickArrowToBow();
+            UpdatePowerText();
+        }
+        else
+        {
+            powerText.text = "";
         }
     }
+    void UpdatePowerText()
+    {
+        powerText.text = $"Power: {Mathf.RoundToInt(chargePower)}";  
+    }
+
 
     void StickArrowToBow()
     {

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using TMPro;
-using System.Diagnostics;
 
 public class BowController : MonoBehaviour
 {
@@ -9,24 +8,25 @@ public class BowController : MonoBehaviour
     public Transform bow;
     private GameObject currentArrow;
     private bool isCharging = false;
-    private bool isZooming = false;
-   
 
     [SerializeField] private float chargePower = 0f;
     [SerializeField] private float maxPower = 50f;
     [SerializeField] private float chargeRate = 20f;
     [SerializeField] private CameraSwitcher cameraSwitcher;
-    [SerializeField] private TextMeshProUGUI powerText; 
+    [SerializeField] private TextMeshProUGUI powerText;
 
     public Camera mainCamera;
     public float zoomedFOV = 30f;
     public float normalFOV = 60f;
     public float zoomSpeed = 5f;
 
+    private Vector2 startTouchPosition;
+
     void Update()
     {
         HandleInput();
         HandleZoom();
+
         if (isCharging && currentArrow != null)
         {
             StickArrowToBow();
@@ -37,10 +37,12 @@ public class BowController : MonoBehaviour
             powerText.text = "Power: ";
         }
     }
+
     void UpdatePowerText()
     {
-        powerText.text = $"Power: {Mathf.RoundToInt(chargePower)}";  
+        powerText.text = $"Power: {Mathf.RoundToInt(chargePower)}";
     }
+
     void StickArrowToBow()
     {
         currentArrow.transform.position = arrowSpawnPoint.position;
@@ -49,30 +51,63 @@ public class BowController : MonoBehaviour
 
     void HandleInput()
     {
+        if (Application.isMobilePlatform)
+        {
+            HandleTouchInput();
+        }
+        else
+        {
+            HandleMouseInput();
+        }
+    }
+
+    void HandleMouseInput()
+    {
         if (Input.GetMouseButtonDown(0))
             StartCharging();
 
         if (Input.GetMouseButton(0))
         {
             ChargeShot();
-            AimArrowWithCrosshair();
+            AimArrowWithCrosshair(Input.mousePosition);
         }
 
         if (Input.GetMouseButtonUp(0))
             ReleaseArrow();
-
-        if (Input.GetMouseButtonDown(1))
-            isZooming = true;
-
-        if (Input.GetMouseButtonUp(1))
-            isZooming = false;
     }
 
-    void AimArrowWithCrosshair()
+    void HandleTouchInput()
+    {
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            switch (touch.phase)
+            {
+                case TouchPhase.Began:
+                    startTouchPosition = touch.position;
+                    StartCharging();
+                    break;
+
+                case TouchPhase.Moved:
+                case TouchPhase.Stationary:
+                    ChargeShot();
+                    AimArrowWithCrosshair(touch.position);
+                    break;
+
+                case TouchPhase.Ended:
+                case TouchPhase.Canceled:
+                    ReleaseArrow();
+                    break;
+            }
+        }
+    }
+
+    void AimArrowWithCrosshair(Vector2 screenPosition)
     {
         if (currentArrow != null)
         {
-            Ray ray = mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+            Ray ray = mainCamera.ScreenPointToRay(screenPosition);
             Vector3 aimDirection = ray.direction;
             currentArrow.transform.rotation = Quaternion.LookRotation(aimDirection) * Quaternion.Euler(90, 0, 0);
         }
@@ -80,17 +115,16 @@ public class BowController : MonoBehaviour
 
     void HandleZoom()
     {
-        float targetFOV = isZooming ? zoomedFOV : normalFOV;
+        float targetFOV = isCharging ? zoomedFOV : normalFOV;
         mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, targetFOV, Time.deltaTime * zoomSpeed);
     }
 
     void StartCharging()
     {
-        
         isCharging = true;
         chargePower = 0f;
 
-        Quaternion rotation = arrowSpawnPoint.rotation * Quaternion.Euler(90, 0 , 0);
+        Quaternion rotation = arrowSpawnPoint.rotation * Quaternion.Euler(90, 0, 0);
         currentArrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, rotation);
         currentArrow.transform.SetParent(bow);
     }
@@ -113,7 +147,6 @@ public class BowController : MonoBehaviour
             currentArrow.transform.SetParent(null);
             Arrow arrowScript = currentArrow.GetComponent<Arrow>();
 
-            // Accurate shoot direction from the crosshair
             Ray ray = mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
             RaycastHit hit;
             Vector3 shootDirection;
@@ -127,10 +160,8 @@ public class BowController : MonoBehaviour
                 shootDirection = ray.direction;
             }
 
-
-
             arrowScript.LaunchArrow(chargePower, shootDirection);
-            cameraSwitcher.OnArrowShot(currentArrow); // Camera switch AFTER shooting
+            cameraSwitcher.OnArrowShot(currentArrow);
 
             currentArrow = null;
         }

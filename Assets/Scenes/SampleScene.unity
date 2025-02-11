@@ -4258,9 +4258,9 @@ MonoBehaviour:
   arrowSpawnPoint: {fileID: 65431869}
   arrowPrefab: {fileID: 1022957178037021631, guid: e3805534b16f83547b4cad94992e4889, type: 3}
   bow: {fileID: 3946306368789527381}
-  chargePower: 20
+  chargePower: 25
   maxPower: 70
-  chargeRate: 20
+  chargeRate: 50
   cameraSwitcher: {fileID: 1363005744}
   powerText: {fileID: 1606956052}
   mainCamera: {fileID: 4706030971505707875}

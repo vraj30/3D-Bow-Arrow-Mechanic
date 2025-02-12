@@ -39,6 +39,7 @@ public class CameraSwitcher : MonoBehaviour
 
         mainCamera.gameObject.SetActive(false);
         arrowCamera.gameObject.SetActive(true);
+        mainCamera2.gameObject.SetActive(true);
 
         StartCoroutine(AssignCameraAfterDelay(arrow));
     }
@@ -92,11 +93,12 @@ public class CameraSwitcher : MonoBehaviour
     IEnumerator ShowImpactCamera(Vector3 impactPosition)
     {
         arrowCamera.gameObject.SetActive(false);
+        mainCamera2.gameObject.SetActive(false);
 
-        Vector3 startPos = arrowCamera.transform.position; // Starting position (current camera)
+        Vector3 startPos = arrowCamera.transform.position + new Vector3(0,0,5); // Starting position (current camera)
         Quaternion startRot = arrowCamera.transform.rotation;
 
-        Vector3 targetPos = impactPosition + new Vector3(0, 1.1f, -2); // Impact view position
+        Vector3 targetPos = impactPosition + new Vector3(0, 1f, -2); // Impact view position
         Quaternion targetRot = Quaternion.LookRotation(impactPosition - targetPos); // Look at impact
 
         float duration = 0.8f; // Smooth transition duration
@@ -129,6 +131,7 @@ public class CameraSwitcher : MonoBehaviour
     {
         mainCamera.gameObject.SetActive(true);
         arrowCamera.gameObject.SetActive(false);
+        mainCamera2.gameObject.SetActive(false);
 
         StartCoroutine(SmoothResetCamera(onComplete));
 

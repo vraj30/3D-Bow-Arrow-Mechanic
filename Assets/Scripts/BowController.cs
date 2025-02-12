@@ -3,6 +3,9 @@ using TMPro;
 
 public class BowController : MonoBehaviour
 {
+    public float ChargePower => chargePower; 
+    public float MaxPower => maxPower;       
+
     public Transform arrowSpawnPoint;
     public GameObject arrowPrefab;
     public Transform bow;
@@ -14,6 +17,7 @@ public class BowController : MonoBehaviour
     [SerializeField] private float chargeRate = 20f;
     [SerializeField] private CameraSwitcher cameraSwitcher;
     [SerializeField] private TextMeshProUGUI powerText;
+    [SerializeField] private ChargeController chargeBarController;
 
     public Camera mainCamera;
     public float zoomedFOV = 30f;
@@ -134,7 +138,7 @@ public class BowController : MonoBehaviour
         if (isCharging)
         {
             chargePower += chargeRate * Time.deltaTime;
-            chargePower = Mathf.Clamp(chargePower, 20, maxPower);
+            chargePower = Mathf.Clamp(chargePower, 0, maxPower);
         }
     }
 
@@ -164,6 +168,9 @@ public class BowController : MonoBehaviour
             cameraSwitcher.OnArrowShot(currentArrow);
 
             currentArrow = null;
+            chargePower = 0f;
+            if (chargeBarController != null)
+                chargeBarController.ResetChargeBar();
         }
     }
 }

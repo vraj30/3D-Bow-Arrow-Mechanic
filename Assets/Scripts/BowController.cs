@@ -138,7 +138,7 @@ public class BowController : MonoBehaviour
         if (isCharging)
         {
             chargePower += chargeRate * Time.deltaTime;
-            chargePower = Mathf.Clamp(chargePower, 0, maxPower);
+            chargePower = Mathf.Clamp(chargePower, 10, maxPower);
         }
     }
 

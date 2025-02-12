@@ -7,7 +7,9 @@ public class CameraSwitcher : MonoBehaviour
     public Camera mainCamera;                       
     public Camera mainCamera2;                      
     public CinemachineCamera arrowCamera;           
-    public Camera impactCamera;                     
+    public Camera impactCamera;
+    public GameObject crosshair;
+    public GameObject chargeBar;
 
     private bool isArrowFlying = false;
     private GameObject currentArrow;
@@ -16,6 +18,8 @@ public class CameraSwitcher : MonoBehaviour
     private Quaternion initialArrowCamRotation;
     private Vector3 initialMainCamPosition;
     private Quaternion initialMainCamRotation;
+
+
 
     private void Start()
     {
@@ -40,6 +44,8 @@ public class CameraSwitcher : MonoBehaviour
         mainCamera.gameObject.SetActive(false);
         arrowCamera.gameObject.SetActive(true);
         mainCamera2.gameObject.SetActive(true);
+        crosshair.gameObject.SetActive(false);
+        chargeBar.gameObject.SetActive(false);
 
         StartCoroutine(AssignCameraAfterDelay(arrow));
     }
@@ -95,7 +101,7 @@ public class CameraSwitcher : MonoBehaviour
         arrowCamera.gameObject.SetActive(false);
         mainCamera2.gameObject.SetActive(false);
 
-        Vector3 startPos = arrowCamera.transform.position + new Vector3(0,0,5); // Starting position (current camera)
+        Vector3 startPos = arrowCamera.transform.position + new Vector3(0,0,1); // Starting position (current camera)
         Quaternion startRot = arrowCamera.transform.rotation;
 
         Vector3 targetPos = impactPosition + new Vector3(0, 1f, -2); // Impact view position
@@ -133,7 +139,12 @@ public class CameraSwitcher : MonoBehaviour
         arrowCamera.gameObject.SetActive(false);
         mainCamera2.gameObject.SetActive(false);
 
-        StartCoroutine(SmoothResetCamera(onComplete));
+        StartCoroutine(SmoothResetCamera(() =>
+        {
+            crosshair.gameObject.SetActive(true);
+            chargeBar.gameObject.SetActive(true);
+            onComplete?.Invoke();
+        }));
 
         arrowCamera.Follow = null;
         isArrowFlying = false;

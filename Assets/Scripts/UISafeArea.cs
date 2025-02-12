@@ -55,7 +55,7 @@ public class UISafeArea : MonoBehaviour
         float topPadding = (1f - cameraRect.yMax) * screenHeight;
 
         // Apply safe area padding
-        rectTransform.offsetMin = new Vector2(leftPadding + 40f, bottomPadding + 80f); // Bottom-left padding
+        rectTransform.offsetMin = new Vector2(leftPadding + 40f, bottomPadding + 65f); // Bottom-left padding
         rectTransform.offsetMax = new Vector2(-rightPadding - 20f, -topPadding - 20f); // Top-right padding
     }
 

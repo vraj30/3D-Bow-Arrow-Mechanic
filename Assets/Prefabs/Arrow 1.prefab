@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5850824116669343346}
   - component: {fileID: -7259293339689453463}
   - component: {fileID: -8015400685458209972}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Arrow 1
   m_TagString: Arrow
   m_Icon: {fileID: 0}
@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 1149160489985578861}
   - component: {fileID: 2250594543622983597}
   - component: {fileID: 2911510278600299314}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Arrow_point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -220,7 +220,7 @@ GameObject:
   - component: {fileID: 1109227351653556680}
   - component: {fileID: 7602273546769464383}
   - component: {fileID: 676749115350597689}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: shaft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -306,7 +306,7 @@ GameObject:
   - component: {fileID: 3347871138073219952}
   - component: {fileID: 5136539063890760680}
   - component: {fileID: 8678557825819134641}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: fletching
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -391,7 +391,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3661098722440901908}
   - component: {fileID: 7964156927841151453}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}

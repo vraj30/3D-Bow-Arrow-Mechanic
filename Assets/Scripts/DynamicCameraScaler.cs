@@ -35,6 +35,7 @@ public class AdvancedCameraScaler : MonoBehaviour
         {
             AdjustCamera();
         }
+
         // Smooth FOV transitions
         _camera.fieldOfView = Mathf.Lerp(_camera.fieldOfView, targetFOV, Time.deltaTime * smoothTransitionSpeed);
     }
@@ -90,6 +91,3 @@ public class AdvancedCameraScaler : MonoBehaviour
     }
 
 }
-
-}
-

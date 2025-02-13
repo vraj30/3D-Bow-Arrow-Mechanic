@@ -88,4 +88,8 @@ public class AdvancedCameraScaler : MonoBehaviour
     {
         return aspectRatio > foldableAspectThreshold; // Samsung Fold in unfolded mode
     }
+
 }
+
+}
+

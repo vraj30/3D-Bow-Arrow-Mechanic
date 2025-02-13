@@ -2103,6 +2103,25 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2085631701}
   m_Enabled: 1
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> e999fc9588d6fd868e63b45bedd7f8f913309098
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c03ef50c4c91dc4694f2dd2dc463415, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetAspectRatio: 0.5625
+=======
+--- !u!114 &2085631708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2085631701}
+  m_Enabled: 1
+>>>>>>> 492a595 (conflict)
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7c03ef50c4c91dc4694f2dd2dc463415, type: 3}
   m_Name: 
@@ -4327,7 +4346,7 @@ GameObject:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
-  m_Component:
+  m_Component:  
   - component: {fileID: 1926951088548866288}
   m_Layer: 7
   m_Name: Head_end

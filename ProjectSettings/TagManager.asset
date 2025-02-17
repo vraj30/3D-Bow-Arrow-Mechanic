@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Arrow
   - Target
+  - Enemy
+  - ICam
   layers:
   - Default
   - TransparentFX

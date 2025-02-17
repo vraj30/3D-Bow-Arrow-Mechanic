@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Unity.Cinemachine;
+using static UnityEditor.PlayerSettings;
 
 public class CameraSwitcher : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class CameraSwitcher : MonoBehaviour
     private Vector3 initialMainCamPosition;
     private Quaternion initialMainCamRotation;
 
-
+    
 
     private void Start()
     {
@@ -28,6 +29,8 @@ public class CameraSwitcher : MonoBehaviour
 
         initialMainCamPosition = mainCamera2.transform.position;
         initialMainCamRotation = mainCamera2.transform.rotation;
+
+      
     }
 
     public void OnArrowShot(GameObject arrow)
@@ -102,12 +105,12 @@ public class CameraSwitcher : MonoBehaviour
         mainCamera2.gameObject.SetActive(false);
 
         Vector3 startPos = arrowCamera.transform.position + new Vector3(0,0,1); // Starting position (current camera)
-        Quaternion startRot = arrowCamera.transform.rotation;
+       // Quaternion startRot = arrowCamera.transform.rotation;
 
         Vector3 targetPos = impactPosition + new Vector3(0, 1f, -2); // Impact view position
-        Quaternion targetRot = Quaternion.LookRotation(impactPosition - targetPos); // Look at impact
+        // targetRot = Quaternion.LookRotation(impactPosition - targetPos); // Look at impact
 
-        float duration = 0.8f; // Smooth transition duration
+        float duration = 0.5f; // Smooth transition duration
         float elapsedTime = 0f;
 
         impactCamera.gameObject.SetActive(true);
@@ -116,15 +119,16 @@ public class CameraSwitcher : MonoBehaviour
         {
             // Smooth transition
             impactCamera.transform.position = Vector3.Lerp(startPos, targetPos, elapsedTime / duration);
-            impactCamera.transform.rotation = Quaternion.Slerp(startRot, targetRot, elapsedTime / duration);
-
+           // impactCamera.transform.rotation = Quaternion.Slerp(startRot, targetRot, elapsedTime / duration);
+            
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
         // Final position & rotation (ensure precision)
         impactCamera.transform.position = targetPos;
-        impactCamera.transform.rotation = targetRot;
+        
+        //impactCamera.transform.rotation = targetRot;
 
         yield return new WaitForSeconds(1.5f); // Stay on impact for 1.5 seconds
 

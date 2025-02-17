@@ -19,7 +19,9 @@ public class GlobalScore : MonoBehaviour
 
     public void AddScore(int points)
     {
+      
         score += points;
+        
         UpdateScoreUI();
     }
 

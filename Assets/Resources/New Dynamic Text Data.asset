@@ -10,31 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fcff3a5a705644c4e9a3068b0236a108, type: 3}
-  m_Name: Crit Data
+  m_Name: New Dynamic Text Data
   m_EditorClassIdentifier: 
-  id: 10
+  id: 4
   colours:
-  - {r: 0, g: 0.91823894, b: 0.12603284, a: 1}
-  - {r: 1, g: 0.5389407, b: 0, a: 1}
+  - {r: 0.01414299, g: 1, b: 0, a: 0}
   sizes:
-  - 1.4
-  - 1.5
+  - 1.1
   font: {fileID: 11400000, guid: af1494a039ceb52429aaa018507ea6dc, type: 2}
   bold: 1
   italic: 0
   underline: 0
   strikethrough: 0
   lifetime: 2
-  numberOfColourAlternations: 10
-  numberOfSizeAlternations: 10
-  colourAlternationDuration: 0.1
-  sizeAlternationDuration: 0.1
+  numberOfColourAlternations: 0
+  numberOfSizeAlternations: 0
+  colourAlternationDuration: 0
+  sizeAlternationDuration: 0
   enterDuration: 0.1
   exitDuration: 0.1
-  maxDrift: 0
-  maxHeight: 1
-  popModifier: 2.8
-  colourAlternationMode: 1
-  sizeAlternationMode: 1
-  enterType: 0200000004000000
+  maxDrift: 2
+  maxHeight: 1.5
+  popModifier: 2
+  colourAlternationMode: 0
+  sizeAlternationMode: 0
+  enterType: 0200000003000000
   exitType: 2

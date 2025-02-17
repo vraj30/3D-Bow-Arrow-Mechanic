@@ -81,7 +81,7 @@ public class Arrow : MonoBehaviour
             transform.SetParent(collision.transform);
 
             CancelInvoke("DestroyProj");  //  Cancel auto-destroy if collision happens
-
+            //DynamicTextManager.CreateText(collision.transform.position + new Vector3(0,0,-2), "COOL", DynamicTextManager.defaultData);
             Invoke("HandlePostCollision", 2f); //  Wait 2 seconds before returning to player
         }
     }

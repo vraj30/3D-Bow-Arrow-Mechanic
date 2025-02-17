@@ -2104,15 +2104,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 2085631701}
   m_Enabled: 1
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> e999fc9588d6fd868e63b45bedd7f8f913309098
+=======
+>>>>>>> 2c905d1 (merger conflict solve)
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7c03ef50c4c91dc4694f2dd2dc463415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   targetAspectRatio: 0.5625
-=======
 --- !u!114 &2085631708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2127,7 +2129,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetAspectRatio: 0.5625
->>>>>>> e999fc9588d6fd868e63b45bedd7f8f913309098
   defaultFOV: 110
   maxFOV: 120
   minFOV: 90
@@ -5773,6 +5774,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<< HEAD
+=======
+  tabletFOVBoost: 1.5
+  foldableFOVBoost: 1.5
+  tabletAspectThreshold: 0.5
+  foldableAspectThreshold: 1.3
+>>>>>>> 2c905d1 (merger conflict solve)
 --- !u!1 &8765503295949878808
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,6 +8,9 @@ public class Arrow : MonoBehaviour
     private CameraSwitcher cameraSwitcher;
     protected TrailRenderer trail;
 
+    public static Vector3 WindDirection = Vector3.zero;
+    public static float WindIntensity = 0f;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -58,8 +61,18 @@ public class Arrow : MonoBehaviour
         {
             Quaternion targetRotation = Quaternion.LookRotation(rb.linearVelocity.normalized);
             targetRotation *= Quaternion.Euler(90, 0, 0);
-
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 8f);
+
+            ApplyWindEffect();
+        }
+    }
+
+    void ApplyWindEffect()
+    {
+        if (!hasHit)
+        {
+            Vector3 windForce = WindDirection * WindIntensity * Time.deltaTime;
+            rb.AddForce(windForce, ForceMode.Acceleration);
         }
     }
 
@@ -80,9 +93,8 @@ public class Arrow : MonoBehaviour
 
             transform.SetParent(collision.transform);
 
-            CancelInvoke("DestroyProj");  //  Cancel auto-destroy if collision happens
-            //DynamicTextManager.CreateText(collision.transform.position + new Vector3(0,0,-2), "COOL", DynamicTextManager.defaultData);
-            Invoke("HandlePostCollision", 2f); //  Wait 2 seconds before returning to player
+            CancelInvoke("DestroyProj");  // Cancel auto-destroy if collision happens
+            Invoke("HandlePostCollision", 2f); // Wait 2 seconds before returning to player
         }
     }
 

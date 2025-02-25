@@ -18,6 +18,8 @@ public class BowController : MonoBehaviour
     [SerializeField] private CameraSwitcher cameraSwitcher;
     [SerializeField] private TextMeshProUGUI powerText;
     [SerializeField] private ChargeController chargeBarController;
+    [SerializeField] private float dizzyIntensity = 0.1f; 
+    [SerializeField] private float dizzySpeed = 2f;       
 
     public Camera mainCamera;
     public float zoomedFOV = 30f;
@@ -25,6 +27,16 @@ public class BowController : MonoBehaviour
     public float zoomSpeed = 5f;
 
     private Vector2 startTouchPosition;
+
+    private bool isDizzy = false;
+    private float dizzyTimer = 0f;
+    private Vector3 originalCameraPosition;
+
+    void Start()
+    {
+        originalCameraPosition = mainCamera.transform.localPosition;
+    }
+
 
     void Update()
     {
@@ -35,10 +47,13 @@ public class BowController : MonoBehaviour
         {
             StickArrowToBow();
             UpdatePowerText();
+            ApplyDizzyEffect();
         }
         else
         {
             powerText.text = "Power: ";
+            ResetCameraPosition();
+
         }
     }
 
@@ -131,6 +146,9 @@ public class BowController : MonoBehaviour
         Quaternion rotation = arrowSpawnPoint.rotation * Quaternion.Euler(90, 0, 0);
         currentArrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, rotation);
         currentArrow.transform.SetParent(bow);
+
+        isDizzy = true;
+        dizzyTimer = 0f;
     }
 
     void ChargeShot()
@@ -147,6 +165,7 @@ public class BowController : MonoBehaviour
         if (isCharging && currentArrow != null)
         {
             isCharging = false;
+            isDizzy = false; // Stop dizzy effect
 
             currentArrow.transform.SetParent(null);
             Arrow arrowScript = currentArrow.GetComponent<Arrow>();
@@ -171,6 +190,25 @@ public class BowController : MonoBehaviour
             chargePower = 0f;
             if (chargeBarController != null)
                 chargeBarController.ResetChargeBar();
+
+            ResetCameraPosition(); // Reset camera after release
         }
+    }
+
+    void ApplyDizzyEffect()
+    {
+        if (!isDizzy) return;
+
+        dizzyTimer += Time.deltaTime * dizzySpeed;
+
+        float offsetX = Mathf.PerlinNoise(dizzyTimer, 0) * dizzyIntensity - (dizzyIntensity / 2);
+        float offsetY = Mathf.PerlinNoise(0, dizzyTimer) * dizzyIntensity - (dizzyIntensity / 2);
+
+        mainCamera.transform.localPosition = originalCameraPosition + new Vector3(offsetX, offsetY, 0);
+    }
+    void ResetCameraPosition()
+    {
+        mainCamera.transform.localPosition = originalCameraPosition;
+        isDizzy = false;
     }
 }

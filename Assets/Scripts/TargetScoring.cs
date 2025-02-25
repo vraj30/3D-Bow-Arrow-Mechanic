@@ -26,7 +26,7 @@ public class TargetScoring : MonoBehaviour
     }
     private IEnumerator ShowScoreText(Vector3 position, int score)
     {
-        // Wait until the impact camera is active
+       
         while (impactCamera != null && !impactCamera.activeSelf)
         {
             yield return null; // Wait for the next frame

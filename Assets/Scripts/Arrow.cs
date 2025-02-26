@@ -87,7 +87,12 @@ public class Arrow : MonoBehaviour
         if (!hasHit)
         {
 
-            collision.gameObject.GetComponent<MovingTarget>().enabled = false;
+            if(collision.collider.CompareTag("MovingTarget"))
+            {
+                collision.gameObject.GetComponent<MovingTarget>().enabled = false;
+                
+            }
+            
             hasHit = true;
 
             rb.isKinematic = true;
@@ -108,12 +113,19 @@ public class Arrow : MonoBehaviour
         }
     }
  
-    void HandlePostCollision()
+  void HandlePostCollision()
     {
         if (!cameraReturned)
         {
             cameraReturned = true;
-            targetTransform.gameObject.GetComponent<MovingTarget>().enabled = true;
+            if (targetTransform != null && targetTransform.CompareTag("MovingTarget"))
+            {
+                var movingTarget = targetTransform.GetComponent<MovingTarget>();
+                if (movingTarget != null && !movingTarget.enabled)
+                {
+                    movingTarget.enabled = true;
+                }
+            }
             if (cameraSwitcher != null)
             {
                 cameraSwitcher.ReturnToPlayerView(() => Destroy(gameObject));  // Wait for camera to switch back, then destroy

@@ -8,6 +8,7 @@ TagManager:
   - Target
   - Enemy
   - ICam
+  - MovingTarget
   layers:
   - Default
   - TransparentFX

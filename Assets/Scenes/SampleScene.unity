@@ -7610,10 +7610,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseSens: 50
   playerBody: {fileID: 1801565847924103983}
-  minXRotation: -8.5
-  maxXRotation: 9
-  minYRotation: -9.2
-  maxYRotation: 8.6
+  minXRotation: -25
+  maxXRotation: 20
+  minYRotation: -10
+  maxYRotation: 10
 --- !u!4 &5532562958615757594
 Transform:
   m_ObjectHideFlags: 0
@@ -7973,10 +7973,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Target
       objectReference: {fileID: 0}
-    - target: {fileID: 2375723731020282720, guid: dc9a6309d89f97e4d9eb4482d264ea7a, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2828973708679902445, guid: dc9a6309d89f97e4d9eb4482d264ea7a, type: 3}
       propertyPath: impactCamera
       value: 
@@ -7987,7 +7983,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6688532145963578046, guid: dc9a6309d89f97e4d9eb4482d264ea7a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.4
+      value: 10.57
       objectReference: {fileID: 0}
     - target: {fileID: 6688532145963578046, guid: dc9a6309d89f97e4d9eb4482d264ea7a, type: 3}
       propertyPath: m_LocalPosition.z

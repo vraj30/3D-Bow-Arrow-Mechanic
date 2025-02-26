@@ -6,13 +6,14 @@ public class WindController : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI windText;
     [SerializeField] private RectTransform windArrowUI;
-    [SerializeField] private Image windArrowImage; // Reference to the UI arrow image
+    [SerializeField] private RectTransform windArrowImage; 
 
-    [SerializeField] private GameObject rightWindEffect; // Effect for right wind
-    [SerializeField] private GameObject leftWindEffect;  // Effect for left wind
+    [SerializeField] private GameObject rightWindEffect; 
+    [SerializeField] private GameObject leftWindEffect; 
 
-    public float fixedWindIntensity = 10f; // Set a constant wind intensity
-    private float windAngle; // Fixed wind direction
+    [SerializeField] private bool isRightWind = true; 
+    public float fixedWindIntensity = 10f; 
+    private float windAngle; 
 
     [SerializeField] private Color lowWindColor = Color.green;
     [SerializeField] private Color midWindColor = Color.yellow;
@@ -20,14 +21,14 @@ public class WindController : MonoBehaviour
 
     void Start()
     {
-        GenerateFixedWind();
+        SetWindDirection();
     }
-    void GenerateFixedWind()
+
+    void SetWindDirection()
     {
-        // Wind is mostly left or right
-        bool isRightWind = Random.value > 0.5f;
+        // Set wind angle based on the boolean value
         windAngle = isRightWind ? 0f : 180f;
-        
+
         // Convert angle to direction vector
         Arrow.WindDirection = new Vector3(Mathf.Cos(windAngle * Mathf.Deg2Rad), 0, Mathf.Sin(windAngle * Mathf.Deg2Rad));
         Arrow.WindIntensity = fixedWindIntensity;
@@ -41,15 +42,20 @@ public class WindController : MonoBehaviour
 
     void UpdateWindUI()
     {
-        windArrowUI.rotation = Quaternion.Euler(0, 0, -windAngle); // Rotate UI arrow to match wind direction
+        windArrowUI.rotation = Quaternion.Euler(0, 0, isRightWind ? 0 : 180);
+
+        // Fix position
+        Vector2 size = windArrowUI.rect.size;
+        windArrowUI.anchoredPosition += new Vector2(isRightWind ? 0 : -size.x, isRightWind ? 0 : size.y);
+
         windText.text = $"{fixedWindIntensity / 60} m/s";
-        
+
         // Change arrow color based on wind intensity
-        if (fixedWindIntensity < 300f)
-            windArrowImage.color = lowWindColor;
-        else if (fixedWindIntensity < 650f)
-            windArrowImage.color = midWindColor;
+        if (fixedWindIntensity < 450f)
+            windArrowImage.GetComponentInChildren<Image>().color = lowWindColor;
+        else if (fixedWindIntensity < 900f)
+            windArrowImage.GetComponentInChildren<Image>().color = midWindColor;
         else
-            windArrowImage.color = highWindColor;
+            windArrowImage.GetComponentInChildren<Image>().color = highWindColor;
     }
 }

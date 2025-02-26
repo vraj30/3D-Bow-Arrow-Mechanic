@@ -7,6 +7,7 @@ public class Arrow : MonoBehaviour
     private bool cameraReturned = false;
     private CameraSwitcher cameraSwitcher;
     protected TrailRenderer trail;
+    //[SerializeField] private GameObject hitEffect;
 
     public static Vector3 WindDirection = Vector3.zero;
     public static float WindIntensity = 0f;
@@ -17,6 +18,7 @@ public class Arrow : MonoBehaviour
         trail = GetComponentInChildren<TrailRenderer>();
         rb.isKinematic = true;
         trail.enabled = false;
+        //hitEffect.SetActive(false);
     }
 
     public void SetCameraSwitcher(CameraSwitcher switcher)
@@ -29,6 +31,7 @@ public class Arrow : MonoBehaviour
         rb.isKinematic = false;
         rb.useGravity = true;
         trail.enabled = true;
+        
 
         Quaternion customRotation = Quaternion.LookRotation(shootDirection.normalized);
         customRotation *= Quaternion.Euler(90, 0, 0);
@@ -71,7 +74,7 @@ public class Arrow : MonoBehaviour
     {
         if (!hasHit)
         {
-            Vector3 windForce = WindDirection * WindIntensity * Time.deltaTime;
+            Vector3 windForce = WindDirection * WindIntensity * Time.deltaTime; 
             rb.AddForce(windForce, ForceMode.Acceleration);
         }
     }
@@ -85,6 +88,7 @@ public class Arrow : MonoBehaviour
             rb.isKinematic = true;
             rb.useGravity = false;
             trail.enabled = false;
+            //hitEffect.SetActive(true);
 
             ContactPoint contact = collision.contacts[0];
             transform.position = contact.point;

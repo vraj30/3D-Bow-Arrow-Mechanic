@@ -19,7 +19,8 @@ public class BowController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI powerText;
     [SerializeField] private ChargeController chargeBarController;
     [SerializeField] private float dizzyIntensity = 0.1f; 
-    [SerializeField] private float dizzySpeed = 2f;       
+    [SerializeField] private float dizzySpeed = 2f;
+    [SerializeField] private GameObject cancelIcon;
 
     public Camera mainCamera;
     public float zoomedFOV = 30f;
@@ -35,6 +36,7 @@ public class BowController : MonoBehaviour
     void Start()
     {
         originalCameraPosition = mainCamera.transform.localPosition;
+        cancelIcon.SetActive(false);
     }
 
 
@@ -46,21 +48,21 @@ public class BowController : MonoBehaviour
         if (isCharging && currentArrow != null)
         {
             StickArrowToBow();
-            UpdatePowerText();
+            //UpdatePowerText();
             ApplyDizzyEffect();
         }
         else
         {
-            powerText.text = "Power: ";
+            //powerText.text = "Power: ";
             ResetCameraPosition();
 
         }
     }
 
-    void UpdatePowerText()
-    {
-        powerText.text = $"Power: {Mathf.RoundToInt(chargePower)}";
-    }
+    //void UpdatePowerText()
+    //{
+    //    powerText.text = $"Power: {Mathf.RoundToInt(chargePower)}";
+    //}
 
     void StickArrowToBow()
     {
@@ -89,10 +91,20 @@ public class BowController : MonoBehaviour
         {
             ChargeShot();
             AimArrowWithCrosshair(Input.mousePosition);
+
+            if (Input.mousePosition.y < Screen.height * 0.1f)
+                cancelIcon.SetActive(true);
+            else
+                cancelIcon.SetActive(false);
         }
 
         if (Input.GetMouseButtonUp(0))
-            ReleaseArrow();
+        {
+            if (Input.mousePosition.y < Screen.height * 0.1f) // Cancel only if released in bottom area
+                CancelCharge();
+            else
+                ReleaseArrow();
+        }
     }
 
     void HandleTouchInput()
@@ -112,13 +124,42 @@ public class BowController : MonoBehaviour
                 case TouchPhase.Stationary:
                     ChargeShot();
                     AimArrowWithCrosshair(touch.position);
+
+                    // Show cancel icon when dragging in bottom area
+                    if (touch.position.y < Screen.height * 0.1f)
+                        cancelIcon.SetActive(true);
+                    else
+                        cancelIcon.SetActive(false);
                     break;
 
                 case TouchPhase.Ended:
                 case TouchPhase.Canceled:
-                    ReleaseArrow();
+                    if (touch.position.y < Screen.height * 0.1f) // Cancel only if released in bottom area
+                        CancelCharge();
+                    else
+                        ReleaseArrow();
                     break;
             }
+        }
+    }
+
+    void CancelCharge()
+    {
+        if (isCharging)
+        {
+            isCharging = false;
+            isDizzy = false;
+
+            if (currentArrow != null)
+            {
+                Destroy(currentArrow);  // Remove the arrow
+                currentArrow = null;
+            }
+            cancelIcon.SetActive(false);
+            chargePower = 0f;
+            //powerText.text = "Power: ";
+            chargeBarController?.ResetChargeBar(); // Reset UI
+            ResetCameraPosition(); // Reset camera effects
         }
     }
 

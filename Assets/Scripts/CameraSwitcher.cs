@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Unity.Cinemachine;
-using static UnityEditor.PlayerSettings;
+
 
 public class CameraSwitcher : MonoBehaviour
 {

@@ -2,16 +2,25 @@ using UnityEngine;
 
 public class MovingTarget : MonoBehaviour
 {
-    private Vector3 startPosition;
+    public Transform pointA, pointB;
+    public float speed = 3f;
+    private Transform targetPoint;
 
     void Start()
     {
-        startPosition = transform.position;
+        targetPoint = pointA;
     }
 
-    // Update is called once per frames
     void Update()
     {
-        transform.position = new Vector3(startPosition.x + Mathf.PingPong(Time.time, 3), startPosition.y, startPosition.z);
+        transform.position = Vector3.MoveTowards(transform.position, targetPoint.position, speed * Time.deltaTime);
+
+        if (Vector3.Distance(transform.position, targetPoint.position) < 0.1f)
+            SwitchTarget();
+    }
+
+    void SwitchTarget()
+    {
+        targetPoint = (targetPoint == pointA) ? pointB : pointA;
     }
 }

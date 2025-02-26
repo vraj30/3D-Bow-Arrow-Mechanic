@@ -2,20 +2,23 @@
 
 public class Arrow : MonoBehaviour
 {
+    private Transform targetTransform;
     private Rigidbody rb;
     private bool hasHit = false;
     private bool cameraReturned = false;
     private CameraSwitcher cameraSwitcher;
     protected TrailRenderer trail;
     //[SerializeField] private GameObject hitEffect;
-
     public static Vector3 WindDirection = Vector3.zero;
     public static float WindIntensity = 0f;
+
+   
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         trail = GetComponentInChildren<TrailRenderer>();
+        
         rb.isKinematic = true;
         trail.enabled = false;
         //hitEffect.SetActive(false);
@@ -83,6 +86,8 @@ public class Arrow : MonoBehaviour
     {
         if (!hasHit)
         {
+
+            collision.gameObject.GetComponent<MovingTarget>().enabled = false;
             hasHit = true;
 
             rb.isKinematic = true;
@@ -90,23 +95,25 @@ public class Arrow : MonoBehaviour
             trail.enabled = false;
             //hitEffect.SetActive(true);
 
-            ContactPoint contact = collision.contacts[0];
+            ContactPoint contact = collision.GetContact(0);
+            targetTransform = collision.transform;
+            transform.SetParent(targetTransform);
             transform.position = contact.point;
             transform.rotation = Quaternion.LookRotation(-contact.normal);
             transform.Rotate(90, 0, 0);
 
-            transform.SetParent(collision.transform);
 
             CancelInvoke("DestroyProj");  // Cancel auto-destroy if collision happens
             Invoke("HandlePostCollision", 2f); // Wait 2 seconds before returning to player
         }
     }
-
+ 
     void HandlePostCollision()
     {
         if (!cameraReturned)
         {
             cameraReturned = true;
+            targetTransform.gameObject.GetComponent<MovingTarget>().enabled = true;
             if (cameraSwitcher != null)
             {
                 cameraSwitcher.ReturnToPlayerView(() => Destroy(gameObject));  // Wait for camera to switch back, then destroy

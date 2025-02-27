@@ -17,10 +17,10 @@ public class mouseLook : MonoBehaviour
     public float minYRotation = -45f;   // Look left limit
     public float maxYRotation = 45f;    // Look right limit
 
-    //void Start()
-    //{
-    //    Cursor.lockState = CursorLockMode.Locked;
-    //}
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
 
     void Update()
     {

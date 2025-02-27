@@ -1,0 +1,5 @@
+C:/Vraj/project1/1st 3D/.utmp/Debug/r6jd1r2y/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Vraj/project1/1st 3D/.utmp/Debug/r6jd1r2y/armeabi-v7a/CMakeFiles/rebuild_cache.dir
+C:/Vraj/project1/1st 3D/.utmp/Debug/r6jd1r2y/armeabi-v7a/FramePacing/CMakeFiles/swappywrapper.dir
+C:/Vraj/project1/1st 3D/.utmp/Debug/r6jd1r2y/armeabi-v7a/FramePacing/CMakeFiles/edit_cache.dir
+C:/Vraj/project1/1st 3D/.utmp/Debug/r6jd1r2y/armeabi-v7a/FramePacing/CMakeFiles/rebuild_cache.dir

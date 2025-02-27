@@ -19,18 +19,34 @@ public class CameraSwitcher : MonoBehaviour
     private Quaternion initialArrowCamRotation;
     private Vector3 initialMainCamPosition;
     private Quaternion initialMainCamRotation;
+    private Vector3 initialMainCam2Position;
+    private Quaternion initialMainCam2Rotation;
 
-    
+    private float initialPan;
+    private float initialTilt;
+    private CinemachinePanTilt panTilt;
+
+
 
     private void Start()
     {
+        panTilt = arrowCamera.GetComponent<CinemachinePanTilt>();
+
+        if (panTilt != null)
+        {
+            initialPan = panTilt.PanAxis.Value;
+            initialTilt = panTilt.TiltAxis.Value;
+        }
+
         initialArrowCamPosition = arrowCamera.transform.position;
         initialArrowCamRotation = arrowCamera.transform.rotation;
 
-        initialMainCamPosition = mainCamera2.transform.position;
-        initialMainCamRotation = mainCamera2.transform.rotation;
+        
+        initialMainCamPosition = mainCamera.transform.position;
+        initialMainCamRotation = mainCamera.transform.rotation;
 
-      
+        initialMainCam2Position = mainCamera2.transform.position;
+        initialMainCam2Rotation = mainCamera2.transform.rotation;
     }
 
     public void OnArrowShot(GameObject arrow)
@@ -44,11 +60,12 @@ public class CameraSwitcher : MonoBehaviour
             arrowCollision.SetCameraSwitcher(this);
         }
 
-        mainCamera.gameObject.SetActive(false);
         arrowCamera.gameObject.SetActive(true);
         mainCamera2.gameObject.SetActive(true);
+        mainCamera.gameObject.SetActive(false);
         crosshair.gameObject.SetActive(false);
         chargeBar.gameObject.SetActive(false);
+        SetPanTilt(7.53f, 10f, 1f); // Smoothly pan to 30°, tilt to 15° over 1.5s
 
         StartCoroutine(AssignCameraAfterDelay(arrow));
     }
@@ -59,7 +76,7 @@ public class CameraSwitcher : MonoBehaviour
 
         if (arrow != null)
         {
-            Vector3 cameraOffset = new Vector3(0, 0, -3);
+            Vector3 cameraOffset = new Vector3(0, 0, 5);
             arrowCamera.transform.position = arrow.transform.position + cameraOffset;
 
             GameObject lookAtPoint = new GameObject("LookAheadPoint");
@@ -71,7 +88,7 @@ public class CameraSwitcher : MonoBehaviour
             var followComponent = arrowCamera.GetComponent<CinemachineFollow>();
             if (followComponent != null)
             {
-                followComponent.FollowOffset = new Vector3(3f, 0f, 0f);
+                followComponent.FollowOffset = new Vector3(3f, 0f, 3f);
             }
 
             isArrowFlying = true;
@@ -104,7 +121,7 @@ public class CameraSwitcher : MonoBehaviour
         arrowCamera.gameObject.SetActive(false);
         mainCamera2.gameObject.SetActive(false);
 
-        Vector3 startPos = arrowCamera.transform.position + new Vector3(0,0,1); // Starting position (current camera)
+        Vector3 startPos = arrowCamera.transform.position + new Vector3(0, 0, 1);  // Starting position (current camera)
        // Quaternion startRot = arrowCamera.transform.rotation;
 
         Vector3 targetPos = impactPosition + new Vector3(0, 1f, -2); // Impact view position
@@ -143,13 +160,20 @@ public class CameraSwitcher : MonoBehaviour
         arrowCamera.gameObject.SetActive(false);
         mainCamera2.gameObject.SetActive(false);
 
+        mainCamera.transform.position = initialMainCamPosition;
+        mainCamera.transform.rotation = initialMainCamRotation;
+
         StartCoroutine(SmoothResetCamera(() =>
         {
             crosshair.gameObject.SetActive(true);
             chargeBar.gameObject.SetActive(true);
             onComplete?.Invoke();
         }));
-
+        // Reset Pan & Tilt smoothly
+        if (panTilt != null)
+        {
+            StartCoroutine(SmoothPanTilt(panTilt, initialPan, initialTilt, 0.1f));
+        }
         arrowCamera.Follow = null;
         isArrowFlying = false;
         currentArrow = null;
@@ -170,8 +194,8 @@ public class CameraSwitcher : MonoBehaviour
             arrowCamera.transform.position = Vector3.Lerp(startPos, initialArrowCamPosition, elapsedTime / duration);
             arrowCamera.transform.rotation = Quaternion.Slerp(startRot, initialArrowCamRotation, elapsedTime / duration);
 
-            mainCamera2.transform.position = Vector3.Lerp(startPos1, initialMainCamPosition, elapsedTime / duration);
-            mainCamera2.transform.rotation = Quaternion.Slerp(startRot1, initialMainCamRotation, elapsedTime / duration);
+            mainCamera2.transform.position = Vector3.Lerp(startPos1, initialMainCam2Position, elapsedTime / duration);
+            mainCamera2.transform.rotation = Quaternion.Slerp(startRot1, initialMainCam2Rotation, elapsedTime / duration);
 
             elapsedTime += Time.deltaTime;
             yield return null;
@@ -180,9 +204,41 @@ public class CameraSwitcher : MonoBehaviour
         arrowCamera.transform.position = initialArrowCamPosition;
         arrowCamera.transform.rotation = initialArrowCamRotation;
 
-        mainCamera2.transform.position = initialMainCamPosition;
-        mainCamera2.transform.rotation = initialMainCamRotation;
+        mainCamera2.transform.position = initialMainCam2Position;
+        mainCamera2.transform.rotation = initialMainCam2Rotation;
 
         onComplete?.Invoke();
     }
+    IEnumerator SmoothPanTilt(CinemachinePanTilt panTilt, float targetPan, float targetTilt, float duration)
+    {
+        float elapsedTime = 0f;
+        float startPan = panTilt.PanAxis.Value;
+        float startTilt = panTilt.TiltAxis.Value;
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / duration;
+
+            panTilt.PanAxis.Value = Mathf.Lerp(startPan, targetPan, t);
+            panTilt.TiltAxis.Value = Mathf.Lerp(startTilt, targetTilt, t);
+
+            yield return null;
+        }
+
+        // Ensure final values are set correctly
+        panTilt.PanAxis.Value = targetPan;
+        panTilt.TiltAxis.Value = targetTilt;
+    }
+
+    public void SetPanTilt(float pan, float tilt, float transitionTime)
+    {
+        if (panTilt != null)
+        {
+            StartCoroutine(SmoothPanTilt(panTilt, pan, tilt, transitionTime));
+        }
+    }
+
+
+
 }

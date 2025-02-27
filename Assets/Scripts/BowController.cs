@@ -27,6 +27,7 @@ public class BowController : MonoBehaviour
     public float normalFOV = 60f;
     public float zoomSpeed = 5f;
 
+    
     private Vector2 startTouchPosition;
 
     private bool isDizzy = false;
@@ -142,7 +143,10 @@ public class BowController : MonoBehaviour
             }
         }
     }
-
+    public void SetCameraSwitcher(CameraSwitcher switcher)
+    {
+        cameraSwitcher = switcher;
+    }
     void CancelCharge()
     {
         if (isCharging)
@@ -160,6 +164,7 @@ public class BowController : MonoBehaviour
             //powerText.text = "Power: ";
             chargeBarController?.ResetChargeBar(); // Reset UI
             ResetCameraPosition(); // Reset camera effects
+            cameraSwitcher.ReturnToPlayerView();
         }
     }
 
